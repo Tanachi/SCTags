@@ -1,4 +1,4 @@
-﻿using SC.API.ComInterop;
+using SC.API.ComInterop;
 using SC.API.ComInterop.Models;
 using System;
 using System.Configuration;
@@ -16,16 +16,16 @@ namespace SCTags
 
         static void Main(string[] args)
         {
-            string fileName = System.IO.Directory.GetParent(System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString() + "\\TBM.xlsx";
             // Get info from config file
             var team = ConfigurationManager.AppSettings["team"];
             var userid = ConfigurationManager.AppSettings["user"];
             var passwd = ConfigurationManager.AppSettings["pass"];
-            var URL = ConfigurationManager.AppSettings["URL"];
+            var sheet = ConfigurationManager.AppSettings["sheet"];
             // Login and get story data from Sharpcloud
-            var sc = new SharpCloudApi(userid, passwd, URL);
+            var sc = new SharpCloudApi(userid, passwd);
             var teamBook = sc.StoriesTeam(team);
-
+            string fileName = System.IO.Directory.GetParent
+                (System.IO.Directory.GetParent(Environment.CurrentDirectory).ToString()).ToString() + "\\" + sheet + ".xlsx";
             // Load data from excel
             using (ExcelPackage xlPackage = new ExcelPackage(new FileInfo(fileName)))
             {
